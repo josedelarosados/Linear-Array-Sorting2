@@ -2,7 +2,7 @@
 
 int main(){
 int *a; //puntero                                                            
-int m[100];
+int m[50];
 
 
 a = &m[0]; //& direccion       
