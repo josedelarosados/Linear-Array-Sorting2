@@ -6,7 +6,7 @@ int m[100];
 
 
 a = &m[0]; //& direccion       
-printf("Direcion de a: %p\n", &a);
+printf("Direcion de a  %p\n", &a);
 printf("Direcion de m[0]: %p\n", &m[0]);
 
 m[0] = 4;
