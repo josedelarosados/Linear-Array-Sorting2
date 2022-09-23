@@ -57,12 +57,16 @@ int main(int argc, char** argv){
 
     int *datos_recibidos;
     datos_recibidos = malloc(sizeof(int)*n);
+    setbuf(rlpFile, NULL);
+    setbuf(wrpFile, NULL);
+    setbuf(wlpFile, NULL);
+    setbuf(rrpFile, NULL);
 
     if (parity == 0){
-        // fread(datos_recibidos, sizeof(int), n, rlpFile);
+        fread(datos_recibidos, sizeof(int), n, rlpFile);
         fwrite(datos, sizeof(int), n, wlpFile);
     } else {
-        // fwrite(datos, sizeof(int), n, wrpFile);
+        fwrite(datos, sizeof(int), n, wrpFile);
         fread(datos_recibidos, sizeof(int), n, rrpFile);
     }
 
