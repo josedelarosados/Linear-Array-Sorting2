@@ -4,7 +4,7 @@
 
 int main(){
     
-    char *file_path = "list.bin";
+    char *file_path = "list_10.bin";
     FILE *File = fopen(file_path, "w");
     if (File == NULL) {
         perror("open");
@@ -13,9 +13,12 @@ int main(){
         printf("Pipe escritura abierto\n");
     }
 
-    for(int i=0; i<5; i++){
-        fwrite(&i, sizeof(int), 1, File);
-        printf("Cadena %d escrita en FIFO\n", i);
+    int num;
+
+    for(int i=0; i<10; i++){
+        num = rand()%10;
+        fwrite(&num, sizeof(int), 1, File);
+        printf("Cadena %d escritan\n", i);
     }
     fclose(File); 
 
