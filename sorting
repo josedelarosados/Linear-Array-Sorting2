@@ -27,7 +27,7 @@ echo "Programa compilado"
 #./array_sort "fifo1" "fifo2" "fifo3" "fifo4" "list_20.bin" 1 10 0
 #./array_sort "fifo3" "fifo4" "fifo5" "fifo6" "list_30.bin" 2 10 1
 #./array_sort "fifo5" "fifo6" "fifo7" "fifo8" "list_40.bin" 3 10 0
-./array_sort "fifo3" "fifo4" "fifo1" "fifo2" "list_50.bin" 1 10 0
+./array_sort "fifo3" "fifo4" "fifo1" "fifo2" "list_50.bin" 1 10 1
 
 for (( i=0; i<$((($arg_n*2)+2)); i++ )) do
 	rm fifo$i
