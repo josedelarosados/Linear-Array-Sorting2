@@ -27,7 +27,7 @@ int main(int argc, char** argv){
     FILE *rrpFile;
 
     int parity = pid%2;
-    printf("Paridad en pid %d: %d\n", pid, parity);
+    //printf("Paridad en pid %d: %d\n", pid, parity);
     if (parity == 0){
         rlpFile = fopen(path_rlfifo, "r");
         wlpFile = fopen(path_wlfifo, "w");
@@ -57,6 +57,10 @@ int main(int argc, char** argv){
 
     int *datos_recibidos;
     datos_recibidos = malloc(sizeof(int)*n);
+    setbuf(rlpFile, NULL);
+    setbuf(wrpFile, NULL);
+    setbuf(wlpFile, NULL);
+    setbuf(rrpFile, NULL);
 
     if (parity == 0){
         fread(datos_recibidos, sizeof(int), n, rlpFile);

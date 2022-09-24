@@ -4,7 +4,7 @@
 
 int main(){
     
-    char *file_path = "list_10.bin";
+    char *file_path = "list_0.bin";
     FILE *File = fopen(file_path, "w");
     if (File == NULL) {
         perror("open");
@@ -16,7 +16,8 @@ int main(){
     int num;
 
     for(int i=0; i<10; i++){
-        num = rand()%10;
+        // num = rand()%10;
+        num=999999;
         fwrite(&num, sizeof(int), 1, File);
         printf("Cadena %d escritan\n", i);
     }
