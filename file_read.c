@@ -8,7 +8,7 @@ int cmpfunc (const void * a, const void * b) {
 
 int main(){
 
-    char *file_path = "list_0.bin";
+    char *file_path = "list0.bin";
     FILE *File = fopen(file_path, "r");
     if (File == NULL) {
         perror("open");

@@ -1,14 +1,16 @@
 #!/bin/bash
 
-while getopts ":n:" opt; do
+while getopts ":n:p:" opt; do
 	case $opt in
 		n) arg_n="$OPTARG"
+			;;
+		p) arg_p="$OPTARG"
 			;;
 		\?) echo "Invalid option" >&2
 			exit 1
 			;;
 	esac
-
+ 
 	case $OPTARG in
 		-*)echo "Option $opt needs a valid argument"
 		exit 1
@@ -16,19 +18,45 @@ while getopts ":n:" opt; do
 	esac
 done
 
-for (( i=0; i<$((($arg_n*2)+2)); i++ )) do
+# FIFOS
+for (( i=0; i<$(($arg_p*2-2)); i++ )) do
 	mkfifo fifo$i
 done
 
+# Listas de numeros
+for (( i=0; i<$arg_p; i++ )) do
+	./rand "list$i.bin" 1000 0 $arg_n
+done
+
 gcc main.c -o array_sort
-echo "Programa compilado"
+echo "Programa main compilado"
 
-./array_sort "list_0.bin" "list_out.bin" "fifo1" "fifo2" "list_10.bin" 0 10 1 &
-./array_sort "fifo1" "fifo2" "fifo3" "fifo4" "list_20.bin" 1 10 0 &
-./array_sort "fifo3" "fifo4" "fifo5" "fifo6" "list_30.bin" 2 10 1 &
-./array_sort "fifo5" "fifo6" "fifo7" "fifo8" "list_40.bin" 3 10 0 &
-./array_sort "fifo7" "fifo8" "list_0.bin" "list_out.bin" "list_50.bin" 4 10 1
+# Lista de numeros int_max -> list_max.bin
+./file_write $(($arg_n*$arg_p)) 1
+./file_write $(($arg_n*$arg_p)) 0
 
-for (( i=0; i<$((($arg_n*2)+2)); i++ )) do
+#./array_sort "list_min.bin" "list_out.bin" "fifo0" "fifo1" "list0.bin" 0 $arg_n $arg_p 1 &
+#./array_sort "fifo0" "fifo1" "fifo2" "fifo3" "list1.bin" 1  $arg_n $arg_p 0 &
+#./array_sort "fifo2" "fifo3" "fifo4" "fifo5" "list2.bin" 2  $arg_n $arg_p 0 &
+#./array_sort "fifo4" "fifo5" "fifo6" "fifo7" "list3.bin" 3  $arg_n $arg_p 0 &
+#./array_sort "fifo6" "fifo7" "list_out2.bin" "list_max.bin" "list4.bin" 4  $arg_n $arg_p 0
+
+./array_sort "list_min.bin" "list_out.bin" "fifo0" "fifo1" "list0.bin" 0 $arg_n $arg_p 1 &
+
+for (( i=0; i<$arg_p-2; i++ ))
+do
+	./array_sort "fifo$(($i*2))" "fifo$(($i*2+1))" "fifo$(($i*2+2))" "fifo$(($i*2+3))" "list$i.bin" $(($i+1)) $arg_n $arg_p 0 &
+done
+
+./array_sort "fifo$(($i*2))" "fifo$(($i*2+1))" "list_out2.bin" "list_max.bin" "list$i.bin" $(($i+1)) $arg_n $arg_p 0 
+
+for (( i=0; i<$(($arg_p*2-2)); i++ )) do
 	rm fifo$i
+done
+
+rm list_max.bin
+rm list_min.bin
+
+for (( i=0; i<$arg_p; i++ )) do
+	rm list$i.bin
 done
