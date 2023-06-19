@@ -1,6 +1,6 @@
 #Linear-Array- Sorting2
 
-./sorting [numeros de una lsita por proceso] [numero de procesos]
+./sorting [numeros de una lista por proceso] [numero de procesos]
 
 ./sorting -n 10 -p 5
 
